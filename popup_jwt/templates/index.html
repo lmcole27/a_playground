@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Popup Example</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<!--<body data-show-popup="{{ show_popup | lower }}"> -->
+<body>
+    <h1>Hello from Flask!</h1>
+
+    <!-- Popup Modal-->
+    <div class="popup-overlay" id="popup" style="display: flex;">
+        <div class="popup-content">
+            <p>Welcome! Please log in or continue as a guest.</p>
+            <button onclick="closePopup()">Login</button></p>
+            <button onclick="getGuestToken()">Continue as Guest</button>
+        </div>
+    </div>
+    
+
+    <div class="page-content" id="main-content"></div>
+    
+    <h1>App content goes here</h1>
+
+    <div id="output">Output will appear here.</div>
+    <!-- <button onclick="showPopup()">Open Popup</button>
+
+    <div class="popup-overlay" id="popup">
+        <div class="popup-content">
+            <p>This is a popup!</p>
+            <button onclick="closePopup()">Close</button>
+        </div>
+    </div>  -->
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
+    <script src="/static/script.js"></script> 
+
+    <!--
+    <script>
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+            document.body.classList.remove('modal-open');
+            document.getElementById('main-content').classList.add('active');
+        }
+    
+        window.onload = function () {
+            {% if show_popup %}
+                document.getElementById('main-content').classList.remove('active');
+            {% else %}
+                document.getElementById('main-content').classList.add('active');
+            {% endif %}
+        };
+    </script>
+-->
+</body>
+</html>

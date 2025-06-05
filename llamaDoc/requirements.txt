@@ -1,0 +1,9 @@
+openai==1.70.0
+pymupdf4llm
+llama-index 
+rapidfuzz 
+pandas 
+llama-index-vector-stores-chroma
+llama-index-embeddings-huggingface
+sentence-transformers
+chromadb

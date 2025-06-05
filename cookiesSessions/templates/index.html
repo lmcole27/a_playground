@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JWT Guest Session Demo</title>
+  <style>
+    body { font-family: sans-serif; padding: 2em; }
+    button { margin-top: 10px; }
+    #output { margin-top: 1em; white-space: pre-wrap; background: #f4f4f4; padding: 1em; border-radius: 5px; }
+  </style>
+</head>
+<body>
+
+<h2>JWT Guest Session Tester</h2>
+
+<button onclick="getGuestToken()">🎟️ Get Guest Token</button><br>
+<button onclick="callWhoAmI()">🧑‍💻 Call /whoami</button><br>
+<button onclick="callGuestZone()">🔒 Call /guest-zone</button>
+
+<div id="output">Output will appear here.</div>
+
+<script>
+  let token = '';
+
+  function showOutput(data) {
+    document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+  }
+
+  function getGuestToken() {
+    fetch('http://localhost:5003/guest')
+      .then(res => res.json())
+      .then(data => {
+        token = data.access_token;
+        showOutput({ msg: 'Token received', token });
+      })
+      .catch(err => showOutput({ error: err.message }));
+  }
+
+  function callWhoAmI() {
+    fetch('http://localhost:5003/whoami', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then(res => res.json())
+      .then(data => showOutput(data))
+      .catch(err => showOutput({ error: err.message }));
+  }
+
+  function callGuestZone() {
+    fetch('http://localhost:5003/guest-zone', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then(res => res.json())
+      .then(data => showOutput(data))
+      .catch(err => showOutput({ error: err.message }));
+  }
+</script>
+
+</body>
+</html>
