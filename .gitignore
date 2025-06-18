@@ -215,6 +215,6 @@ sourceData/
 sourcePDF/
 llamaDoc/ChromaDB
 llamaDoc/chroma_db
-llamaDoc/results
-.gsheet
+
+llamaDoc/chat_histories.json
 cookiesSessions/flask_session
