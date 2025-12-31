@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
+    <title>Welcome</title>
+  </head>
+  <body>
+    
+        <div class="container">
+        <!---<h3>Learn French Challenge</h3>-->
+        <div class="card">
+          <div id ="cardFront">Bonjour, mon amour!</div>
+          <div id ="cardBack" class="hidden">Hello, my love!</div>
+          <button id="flipBtn" class="btn" >Flip</button>
+          <button id="nextBtn" class="btn" >Next</button>
+        </div>
+      </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </body>
+</html>

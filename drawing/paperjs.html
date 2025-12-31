@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Paper JS</title>
+    <style>
+      /* visible border for testing and a sensible canvas size */
+      canvas#c {
+        border: 4px solid #ff3b30; /* change color if you like */
+        box-sizing: border-box;
+        width: 90vw;
+        height: 80vh;
+        display: block;
+        margin: 20px auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>PAPER JS Drawing</h1>
+    <canvas id="c" resize></canvas>
+
+    <!-- load UMD build (no module import problems) -->
+    <script src="https://unpkg.com/paper/dist/paper-full.min.js"></script>
+
+    <script>
+    // use global `paper`
+   paper.setup('c');
+
+    let circlePath = null;
+    let recPath = null;
+    let linePath = null;
+
+    // var point = new paper.Point(10, 5);
+    //   console.log(point.x); // 10
+    //   console.log(point.y); // 5
+
+    // create a rectangle path (optional starter shape)
+    recPath = new paper.Path.Rectangle({
+      point: [75, 75],
+      size: [150, 150],
+      strokeColor: 'yellow',
+      fillColor: 'blue'
+    });
+
+    // // rotate the path each frame
+    // paper.view.onFrame = function(event) {
+    //   if (path2) {
+    //     path2.rotate(3);
+    //   }
+    // };
+    // Create a circle shaped path at the center of the view,
+    // with a radius of 70:
+    circlePath = new paper.Path.Circle({
+	  center: [450, 300],
+	  radius: 70,
+	  fillColor: 'red'
+    });
+
+    // linePath = new paper.linePath({
+    //     from: [0, 0],
+    //     to: [100, 50],
+    //     strokeColor: 'black'
+
+    var line = new paper.Path.Line(new paper.Point(400, 400), new paper.Point(600, 600));
+      line.strokeColor = 'black';
+      line.strokeWidth = 3;
+
+    // Option B: build a path manually
+    var p = new paper.Path();
+      p.strokeColor = 'red';
+      p.strokeWidth = 2;
+      p.add(new paper.Point(300, 300));
+      p.add(new paper.Point(320, 450));
+    //  });
+    //   myPath.strokeColor = 'black';
+    //   myPath.add(new Point(0, 0), new Point(100, 50));
+
+    paper.view.onFrame = function(event) {
+        if (circlePath && recPath) {
+            circlePath.fillColor.hue += 1;
+            recPath.fillColor.hue += 1;
+            recPath.rotate(3);
+        }
+
+
+
+// function onFrame(event) {
+// 	// Each frame, change the fill color of the path slightly by
+// 	// adding 1 to its hue:
+// 	path.fillColor.hue += 1;
+}
+
+    // paper.view.onMouseDown = e => {
+    //   path = new paper.Path({
+    //     strokeColor: 'black',
+    //     strokeWidth: 2
+    //   });
+    //   path.add(e.point);
+    // };
+
+    // paper.view.onMouseDrag = e => {
+    //   if (path) path.add(e.point);
+    // };
+
+    // paper.view.onMouseUp = e => {
+    //   if (!path) return;
+    //   path.simplify();
+    //   path.smooth();
+    //   path.selected = false; // hide handles
+    //   path = null;
+    // };
+
+
+    </script>
+
+  </body>
+</html>

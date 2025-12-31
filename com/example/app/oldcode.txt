@@ -1,0 +1,32 @@
+package com.example.app
+
+// val name:String = "Smart Guy"
+// var greeting:String? = "Hello, $name!"
+
+fun greeting(greeting: String = "Hello", name: String = "Mama Mia"){
+    println("I'm a greeting function")
+    println("$greeting $name")
+}
+
+fun main() {
+    // greeting()  // uses default parameters
+    // greeting("Hi")  // uses default name
+    // greeting(name="Papa Papa")  // uses default greeting
+
+    val person = Person(firstName = "John", lastName = "Doe")
+    println("person.firstName = $person.firstName")
+    println("Person's name is: ${person.firstName} ${person.lastName}")
+    // when (greeting) {
+    //     null -> println("greeting is null")
+    //     else -> println("greeting is not null")
+    // }
+    // if (greeting !=null) {
+    //     println("name length is ${name!!.length}")
+    // } else {
+    //     println("name is null, no length")
+    // }
+    // println("hello world")
+    // println(greeting)
+    // greeting = null
+    // println(greeting)
+}

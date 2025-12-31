@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>67 Kid</title>
+  <style>
+    body { margin: 0; display:flex; justify-content:center; align-items:center; height:100vh; background:#fafafa; }
+    canvas { border:1px solid #ccc; }
+  </style>
+</head>
+<body>
+<canvas id="gameCanvas" width="550" height="400"></canvas>
+
+<script>
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+
+function draw() {
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 1;
+
+    // Head
+    ctx.beginPath();
+    ctx.arc(100, 100, 50, 0, Math.PI * 2);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.bezierCurveTo(200, 180, 250, 220, 250, 200);
+    ctx.stroke();
+    // cp1x, cp1y: coordinates of the first control point
+    // cp2x, cp2y: coordinates of the second control point
+    // x2, y2: coordinates of the end point of the curve
+
+    ctx.beginPath();
+    ctx.moveTo(0,28)
+    ctx.bezierCurveTo(0,28,31,7,70,8);
+    ctx.bezierCurveTo(109,9,313,99,425,90);
+    ctx.bezierCurveTo(516,82.5,536,55,536,55);
+    ctx.stroke();
+}
+draw();
+</script>
+</body>
+</html>
