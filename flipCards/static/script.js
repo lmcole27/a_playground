@@ -4,10 +4,14 @@ const tranlation = document.getElementById("cardBack")
 const flipBTN = document.getElementById("flipBtn")
 const nextBTN = document.getElementById("nextBtn")
 const hideBTN = document.getElementById("hideBtn")
+const showAllBTN = document.getElementById("showAllBtn")
+const shuffleBTN = document.getElementById("shuffleBtn")
 let currentCardID = null;
 flipBTN.addEventListener('click', flipCard)
 nextBTN.addEventListener('click', getPhrase)
 hideBTN.addEventListener('click', hideCard)
+showAllBTN.addEventListener('click', showAll)
+// shuffleBTN.addEventListener('click', shuffleCards)
 
 //USING ASYNC/AWAIT
 async function getPhrase() {
@@ -60,24 +64,46 @@ async function hideCard() {
   getPhrase(); // Fetch a new phrase after hiding the current one
 }
 
-// window.onload = () => {
-//     fetch('/api/get_session', {
-//         method: 'GET', // HTTP method
-//         headers: {
-//             'Content-Type': 'application/json' // Tells the server you're sending JSON
-//         },
-//         credentials: 'include',
-//         //body: JSON.stringify('xyz')
-//       })
-//       .then(res => res.json())
-//       .then(data => {
-//         if (data.success) {
-//           const token = data.token
-//           showOutput(`Welcome Guest ${token}`);
-//           closePopup();
-//         } else {
-//             showPopup();
-//         }
-// })
-// };
 
+
+function showToast(message, options = {}) {
+  const { duration = 4000, undoText, onUndo } = options;
+
+  const container = document.getElementById("toast-container");
+
+  const toast = document.createElement("div");
+  toast.className = "toast";
+  toast.textContent = message;
+
+  if (undoText && onUndo) {
+    const undoBtn = document.createElement("button");
+    undoBtn.textContent = undoText;
+    undoBtn.onclick = () => {
+      onUndo();
+      toast.remove();
+    };
+    toast.appendChild(undoBtn);
+  }
+
+  container.appendChild(toast);
+
+  setTimeout(() => {
+    toast.remove();
+  }, duration);
+}
+
+// Show All Cards
+async function showAll() {
+  console.log("Showing all cards");
+
+  const response = await fetch("http://127.0.0.1:5001/api/showAll",
+    {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        status: "show"
+      })
+    }
+  );
+  showToast("All cards are now visible.");
+}

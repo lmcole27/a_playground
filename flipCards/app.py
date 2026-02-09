@@ -21,9 +21,10 @@ client = MongoClient(uri, server_api=ServerApi('1'))
 try:
     # Send a ping to confirm a successful connection
     client.admin.command('ping')
-    print("Pinged your deployment. You successfully connected to MongoDB!")
     database = client["flashCards"]
-    collection = database["frenchExpressions"]
+    cards = database["cards"]
+    userCards = database["userCards"]
+    print("Pinged your deployment. You successfully connected to MongoDB!")
 except Exception as e:
     raise Exception(
         "The following error occurred: ", e)
@@ -48,6 +49,7 @@ def check_session():
         print("New session created with token:", session['token'])
     else:
         print("Existing session with token:", session['token'])
+    return session['token']
 
 #WEB HOME PAGE
 @app.route('/', methods=['GET', 'POST'])
@@ -55,23 +57,38 @@ def welcome():
     check_session()
     return render_template("index.html")
     
-#API ENDPOINT
-@app.route('/api/nextCard', methods=['GET', 'POST'])
+#API ENDPOINTS
+@app.route("/api/nextCard", methods=["GET"])
 def api():
-    doc = list(database.collection.aggregate([
-    {"$sample": {"size": 1}}
-    ]))[0]
-    cardID = str(doc['_id'])
-    phrase = doc['phrase']
-    translation = doc['translation']
-    output = {
-        "cardID": cardID,
-        "Phrase": phrase,
-        "Translation": translation
-        }
-    json_string = json.dumps(output, indent=4)
-    print("cardID:", cardID)
-    return json_string
+    user_id = check_session()
+    #cards = database["cards"]
+    #userCards = database["userCards"]
+
+    # 1) Get hidden cardIds for this user
+    hidden_cursor = userCards.find(
+        {"userID": user_id, "status": "hide"},
+        {"_id": 0, "cardId": 1}
+    )
+    hidden_ids = [d["cardId"] for d in hidden_cursor]  # these should already be ObjectId
+
+    # 2) Build pipeline to exclude hidden, then sample
+    pipeline = []
+    if hidden_ids:
+        pipeline.append({"$match": {"_id": {"$nin": hidden_ids}}})
+    pipeline.append({"$sample": {"size": 1}})
+
+    docs = list(cards.aggregate(pipeline))
+    if not docs:
+        print("ERROR: No cards left (all hidden?)")
+        return jsonify(error="No cards left (all hidden?)"), 404
+
+    doc = docs[0]
+    print("Selected card for user", user_id, ":", doc["_id"])
+    return jsonify(
+        cardID=str(doc["_id"]),
+        Phrase=doc.get("phrase", ""),
+        Translation=doc.get("translation", "")
+    )
 
 @app.route('/api/hideCard', methods=['GET', 'POST'])
 def userCard():
@@ -88,7 +105,7 @@ def userCard():
 
     userCards = database["userCards"]
     result = userCards.update_one(
-        {"userID": guest_user_token, "cardId": currentCardID},
+        {"userID": guest_user_token, "cardId": ObjectId(currentCardID)},
         {
             "$set": {
                 "status": status,
@@ -101,6 +118,28 @@ def userCard():
     # result.matched_count tells you if it found an existing doc
     # result.upserted_id is set if it inserted a new one
     return jsonify({"message": "This is a placeholder for userCards endpoint."})
+
+@app.route('/api/showAll', methods=['GET', 'POST'])
+def showAll():
+    check_session()
+    guest_user_token = session['token']
+    userCards = database["userCards"]
+    status = "show"
+    now = datetime.now(timezone.utc)
+    result = userCards.update_many(
+        {},
+        {
+            "$set": {
+                "status": status,
+                "updatedAt": now
+            },
+        },
+        upsert=True
+    )
+    for doc in database.userCards.find().limit(3):
+        print(doc)
+    print(f"Show All Cards for Guest User Token: {guest_user_token}")
+    return jsonify({"message": "This is a placeholder for Show All Cards endpoint."})
 
 #RUN THE WEBAPP
 if __name__ == "__main__":

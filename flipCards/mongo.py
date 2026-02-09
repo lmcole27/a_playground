@@ -49,19 +49,36 @@ except Exception as e:
 # print(database.userCards.index_information()
 # )
 
+# database.userCards.update_many(
+#     {"userID": {"$regex": r"^g:g:"}},
+#     [
+#         {"$set": {"userID": {"$replaceOne": {"input": "$userID", "find": "g:g:", "replacement": "g:"}}}}
+#     ]
+# )
+
+print(database.list_collection_names())
+
+
+#database["collection"].rename("cards")
+
 database.userCards.update_many(
-    {"userID": {"$regex": r"^g:g:"}},
+    {"cardId": {"$type": "string"}},
     [
-        {"$set": {"userID": {"$replaceOne": {"input": "$userID", "find": "g:g:", "replacement": "g:"}}}}
+        {
+            "$set": {
+                "cardId": {"$toObjectId": "$cardId"}
+            }
+        }
     ]
 )
 
+
 num = database.userCards.count_documents({})
-print(f"Number of documents in collection: {num}")
+num2 = database.cards.count_documents({})
+print(f"Number of documents in collection: {num}, {num2}")
 # print(collection)
 
 for doc in database.userCards.find().limit(3):
     print(doc)
     
-
 # database.collection.drop()

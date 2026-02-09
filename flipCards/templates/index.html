@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+  
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,18 +8,32 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
     <title>Welcome</title>
   </head>
+
   <body>
-    
-        <div class="container">
-        <!---<h3>Learn French Challenge</h3>-->
+      <!-- CARD -->
+      <div class="container">
+        <!-- <h3>Learn French Challenge</h3> -->
         <div class="card">
           <div id ="cardFront">Bonjour, mon amour!</div>
           <div id ="cardBack" class="hidden">Hello, my love!</div>
-          <button id="flipBtn" class="btn" >Flip</button>
-          <button id="nextBtn" class="btn" >Next</button>
-          <button id="hideBtn" class="btn" >Hide</button>
+          <div class="btnRow1">
+            <button id="flipBtn" class="btn" >Flip</button>
+            <button id="nextBtn" class="btn" >Next</button>
+            <button id="backBtn" class="btn" >Back</button>
+          </div>
         </div>
       </div>
+
+      <!-- BUTTONS BELOW CARD -->
+      <div class="btnRow2">
+        <button id="hideBtn" class="btnControls" >Hide Card</button>
+        <button id="showAllBtn" class="btnControls">Show All</button>
+        <button id="shuffleBtn" class="btnControls">Shuffle</button>
+      </div>
+      
+      <!-- TOAST NOTIFICATIONS -->
+      <div id="toast-container"></div>
+
     <script src="{{ url_for('static', filename='script.js') }}" defer></script>
   </body>
 </html>
