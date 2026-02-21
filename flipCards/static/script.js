@@ -75,6 +75,13 @@ function showToast(message, options = {}) {
   toast.className = "toast";
   toast.textContent = message;
 
+  // Close (X) button
+  const closeBtn = document.createElement("button");
+  closeBtn.className = "toast-close";
+  closeBtn.innerHTML = "&times;";
+  closeBtn.onclick = () => toast.remove();
+  toast.appendChild(closeBtn);
+
   if (undoText && onUndo) {
     const undoBtn = document.createElement("button");
     undoBtn.textContent = undoText;

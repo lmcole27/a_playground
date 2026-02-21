@@ -107,6 +107,7 @@ h3 {
   align-items: center;
   font-size: 14px;
   animation: slideIn 0.25s ease-out;
+  position: relative
 }
 
 .toast button {
@@ -127,4 +128,23 @@ h3 {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* .toast {
+  position: relative;
+} */
+
+.toast-close {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.toast-close:hover {
+  color: #fff;
 }
