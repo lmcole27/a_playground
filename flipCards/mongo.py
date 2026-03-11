@@ -61,16 +61,16 @@ print(database.list_collection_names())
 
 #database["collection"].rename("cards")
 
-database.userCards.update_many(
-    {"cardId": {"$type": "string"}},
-    [
-        {
-            "$set": {
-                "cardId": {"$toObjectId": "$cardId"}
-            }
-        }
-    ]
-)
+# database.userCards.update_many(
+#     {"cardId": {"$type": "string"}},
+#     [
+#         {
+#             "$set": {
+#                 "cardId": {"$toObjectId": "$cardId"}
+#             }
+#         }
+#     ]
+# )
 
 
 num = database.userCards.count_documents({})

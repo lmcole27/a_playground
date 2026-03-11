@@ -1,0 +1,3 @@
+interface:
+  display_name: "Waterloo MCP Basic"
+  short_description: "Smoke test and debug a local Node MCP server"
