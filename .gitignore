@@ -220,3 +220,6 @@ llamaDoc/chat_histories.json
 cookiesSessions/flask_session
 *.gsheet
 llamaDoc/outputImages/
+
+pytorch/data/*
+pytorch/models/*
