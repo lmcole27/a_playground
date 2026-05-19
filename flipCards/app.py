@@ -2,9 +2,7 @@ from flask import Flask, render_template, url_for, jsonify, session, request
 import uuid
 from flask_cors import CORS
 #from flask_sqlalchemy import SQLAlchemy
-from flask_pymongo import PyMongo
 # from pymongo import MongoClient, server_api
-from pymongo import AsyncMongoClient
 import os
 from dotenv import load_dotenv
 from pymongo.mongo_client import MongoClient
